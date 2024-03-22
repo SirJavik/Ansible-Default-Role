@@ -1,0 +1,15 @@
+- name: Copy 61-private-network.cfg to servers
+  ansible.builtin.template:
+    src: ./templates/etc/network/interfaces.d/61-private-network.cfg.j2
+    dest: /etc/network/interfaces.d/61-private-network.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  register: privateip_conf
+
+- name: Restart networking
+  service:
+    name: networking
+    state: restarted
+  when: 
+    - privateip_conf.changed

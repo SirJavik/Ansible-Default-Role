@@ -50,20 +50,6 @@
   ansible.builtin.package_facts:
     manager: auto
 
-#- name: Import update snapd packages
-#  ansible.builtin.import_tasks:
-#    file: update-snapd-packages.yml
-#  when: 
-#    - update_snapd_packages | default(false)
-#    - "'snapd' in ansible_facts.packages"
-
-- name: Import update flatpak packages
-  ansible.builtin.import_tasks:
-    file: update-flatpak-packages.yml
-  when: 
-    - update_flatpak_packages | default(false)
-    - "'flatpak' in ansible_facts.packages"
-
 - name: Install default packages
   ansible.builtin.include_tasks: install-package.yml
   loop: "{{ default_packages }}"

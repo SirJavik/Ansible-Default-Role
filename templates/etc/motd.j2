@@ -1,0 +1,34 @@
+Welcome on {{ ansible_facts['fqdn'] }} running {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}!
+<== System managed by Ansible {{ ansible_version['major'] }}.{{ ansible_version['minor'] }} ==>
+
+Datacenter: {{ dc_location }}
+Provider: {{ dc_provider }}
+
+This is a {{ server_group }}
+============================================
+Terraform Repo: - https://gitlab.com/Javik/infrastructure
+                - https://github.com/SirJavik/infrastructure (Mirror)
+
+Ansible Repo:   - https://gitlab.com/Javik/ansible
+                - https://github.com/SirJavik/ansible (Mirror)
+{% if server_group == "hgLoadbalancer" %}
+
+hcloud-ip Repo: - https://gitlab.com/Javik/hcloud-ip
+                - https://github.com/SirJavik/hcloud-ip (Mirror)
+{% endif %}
+============================================
+Services:
+{% for service in services %}
+    - {{ service }}
+{% endfor %}
+
+{% if groups['hg' + (server_group | capitalize)] | length > 1 %}
+Other servers in this group:
+{% for server in groups['hg' + (server_group | capitalize)] %}
+{% if server != ansible_facts['fqdn'] %}
+    - {{ server }}
+{% endif %}
+{% endfor %}
+
+{% endif %}
+=> Part of JavikWeb-Project <=

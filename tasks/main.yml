@@ -1,15 +1,74 @@
-- name: Copy 61-private-network.cfg to servers
-  ansible.builtin.template:
-    src: ./templates/etc/network/interfaces.d/61-private-network.cfg.j2
-    dest: /etc/network/interfaces.d/61-private-network.cfg
-    owner: root
-    group: root
-    mode: '0644'
-  register: privateip_conf
+---
+#########################################
+#            _             _ _          #
+#           | |           (_) |         #
+#           | | __ ___   ___| | __      #
+#       _   | |/ _` \ \ / / | |/ /      #
+#      | |__| | (_| |\ V /| |   <       #
+#       \____/ \__,_| \_/ |_|_|\_\      #
+#                                       #
+#########################################
 
-- name: Restart networking
-  service:
-    name: networking
-    state: restarted
+- name: Import system-specific variables
+  ansible.builtin.import_tasks:
+    file: import-vars.yml
+
+- name: Import setup Hetzner private network
+  ansible.builtin.import_tasks:
+    file: setup-hetzner-private-network.yml
   when: 
-    - privateip_conf.changed
+    - dc_provider | lower == 'hetzner'
+
+- name: Import setup hosts file
+  ansible.builtin.import_tasks:
+    file: setup-hosts-file.yml
+
+- name: Import setup motd
+  ansible.builtin.import_tasks:
+    file: setup-motd.yml
+
+- name: Import setup timezone
+  ansible.builtin.import_tasks:
+    file: setup-timezone.yml
+  when: timezone is defined
+
+- name: Import update system packages for Debian systems
+  ansible.builtin.import_tasks:
+    file: update-system-packages-debian.yml
+  when: 
+    - update_system_packages | default(false)
+    - ansible_facts['os_family'] == 'Debian'
+
+- name: Import update system packages for RedHat systems (CentOS, Fedora)
+  ansible.builtin.import_tasks:
+    file: update-system-packages-redhat.yml
+  when: 
+    - update_system_packages | default(false)
+    - ansible_facts['os_family'] == 'RedHat'
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+#- name: Import update snapd packages
+#  ansible.builtin.import_tasks:
+#    file: update-snapd-packages.yml
+#  when: 
+#    - update_snapd_packages | default(false)
+#    - "'snapd' in ansible_facts.packages"
+
+- name: Import update flatpak packages
+  ansible.builtin.import_tasks:
+    file: update-flatpak-packages.yml
+  when: 
+    - update_flatpak_packages | default(false)
+    - "'flatpak' in ansible_facts.packages"
+
+- name: Install default packages
+  ansible.builtin.include_tasks: install-package.yml
+  loop: "{{ default_packages }}"
+  when: default_packages is defined
+  
+- name: Set fact 'basic_setup_done' to true
+  ansible.builtin.set_fact:
+    basic_setup_done: true

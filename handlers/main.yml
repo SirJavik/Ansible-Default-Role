@@ -13,3 +13,8 @@
   service:
     name: networking
     state: restarted
+
+- name: Restart unattended-upgrades
+  service:
+    name: unattended-upgrades
+    state: restarted

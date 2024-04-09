@@ -13,6 +13,11 @@
   ansible.builtin.import_tasks:
     file: import-vars.yml
 
+- name: Import configure language
+  ansible.builtin.import_tasks:
+    file: configure-lang.yml
+  when: config_system_locale is defined and config_system_language is defined
+
 - name: Import setup Hetzner private network
   ansible.builtin.import_tasks:
     file: setup-hetzner-private-network.yml

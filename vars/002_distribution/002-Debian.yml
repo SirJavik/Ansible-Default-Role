@@ -42,3 +42,12 @@ default_packages:
   - tshark
   - tcpflow
   - parted
+  - hdparm
+  - smartmontools
+  - lshw
+  - lsscsi
+  - lsof
+  - ltrace
+  - strace
+  - sysstat
+  - dnstracer

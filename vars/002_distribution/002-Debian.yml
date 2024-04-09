@@ -50,4 +50,5 @@ default_packages:
   - ltrace
   - strace
   - sysstat
+  - iotop
   - dnstracer

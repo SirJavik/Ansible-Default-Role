@@ -54,3 +54,4 @@ default_packages:
   - dnstracer
   - w3m
   - w3m-img
+  - mosh

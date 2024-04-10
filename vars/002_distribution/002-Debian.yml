@@ -52,3 +52,5 @@ default_packages:
   - sysstat
   - iotop
   - dnstracer
+  - w3m
+  - w3m-img

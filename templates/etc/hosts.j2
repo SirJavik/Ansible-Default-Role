@@ -27,7 +27,7 @@ ff02::2     ip6-allrouters
 {% for server in groups['hg' + (hostgroup | capitalize)] %}
 {% if server != inventory_hostname %}
 {% if (hostvars[server]['vpn_access_only'] == true or vpn_outgoing_only == true) and hostvars[server]['dc_location'] != dc_location %}
-{{ hostvars[server]['ansible_' + hostvars[server]['vpn_interface']]['ipv4']['address'] }} {{ hostvars[server]['ansible_fqdn'] }} {{ hostvars[server]['ansible_hostname'] }}
+{#{{ hostvars[server]['ansible_' + hostvars[server]['vpn_interface']]['ipv4']['address'] }} {{ hostvars[server]['ansible_fqdn'] }} {{ hostvars[server]['ansible_hostname'] }}#} 
 {% else %}
 {{ hostvars[server]['ansible_' + hostvars[server]['private_interface']]['ipv4']['address'] }} {{ hostvars[server]['ansible_fqdn'] }} {{ hostvars[server]['ansible_hostname'] }}
 {% endif %}

@@ -15,7 +15,6 @@ hostgroups:
   - webstorageserver
   - mailserver
   - icinga
-  - loadbalancer
   - nas
 
 config_system_locale: 'en_US.UTF-8'

@@ -55,3 +55,4 @@ default_packages:
   - w3m
   - w3m-img
   - mosh
+  - apt-file

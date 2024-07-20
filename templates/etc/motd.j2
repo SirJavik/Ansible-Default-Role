@@ -4,7 +4,6 @@ Welcome on {{ ansible_facts['fqdn'] }} running {{ ansible_facts['distribution'] 
 Datacenter: {{ dc_location }}
 Provider: {{ dc_provider }}
 
-This is a {{ server_group }}
 ============================================
 Terraform Repo: - https://gitlab.com/Javik/infrastructure
                 - https://github.com/SirJavik/infrastructure (Mirror)
@@ -16,10 +15,40 @@ Ansible Repo:   - https://gitlab.com/Javik/ansible
 hcloud-ip Repo: - https://gitlab.com/Javik/hcloud-ip
                 - https://github.com/SirJavik/hcloud-ip (Mirror)
 {% endif %}
+
+DokuWiki:       - https://wiki.javik.net/service/{{ ansible_facts['fqdn'] }}
 ============================================
 Services:
-{% for service in services %}
-    - {{ service }}
+{% for service in hostvars[inventory_hostname].ansible_facts.services %}
+{% if service == 'mariadb.service' %}
+    - MariaDB
+{% elif service == 'nginx.service' %}
+    - Nginx
+{% elif service == "php${php_version}-fpm.service" %}
+    - PHP-FPM
+{% elif service == 'redis.service' %}
+    - Redis
+{% elif service == 'memcached.service' %}
+    - Memcached
+{% elif service == 'haproxy.service' %}
+    - HAProxy
+{% elif service == 'keepalived.service' %}
+    - Keepalived
+{% elif service == 'docker.service' %}
+    - Docker
+{% elif service == 'apache2.service' %}
+    - Apache2
+{% elif service == 'fail2ban.service' %}
+    - Fail2ban
+{% elif service == 'icinga2.service' %}
+    - Icinga2
+{% elif service == 'icingadb-redis-server.service' %}
+    - Icinga2-Redis
+{% elif service == 'icingadb.service' %}
+    - Icinga2-DB
+{% elif service == 'ssh.service' %}
+    - SSH
+{% endif %}
 {% endfor %}
 
 {% if groups['hg' + (server_group | capitalize)] | length > 1 %}

@@ -9,6 +9,9 @@
 #                                       #
 #########################################
 
+- name: Obtain service facts from system
+  ansible.builtin.service_facts:
+
 - name: Copy motd to servers
   ansible.builtin.template:
     src: ./templates/etc/motd.j2

@@ -9,10 +9,6 @@
 #                                       #
 #########################################
 
-- name: Import system-specific variables
-  ansible.builtin.import_tasks:
-    file: import-vars.yml
-
 - name: Import configure language
   ansible.builtin.import_tasks:
     file: configure-lang.yml
@@ -37,40 +33,9 @@
     file: setup-timezone.yml
   when: timezone is defined
 
-- name: Import update system packages for Debian systems
-  ansible.builtin.import_tasks:
-    file: update-system-packages-debian.yml
-  when:
-    - update_system_packages | default(false)
-    - ansible_facts['os_family'] == 'Debian'
-
-- name: Enable unattended upgrades for Debian systems
-  ansible.builtin.import_tasks:
-    file: enable-unattended-upgrades.yml
-  when:
-    - enable_unattended_upgrades | default(false)
-    - ansible_facts['os_family'] == 'Debian'
-
-- name: Import update system packages for RedHat systems (CentOS, Fedora)
-  ansible.builtin.import_tasks:
-    file: update-system-packages-redhat.yml
-  when:
-    - update_system_packages | default(false)
-    - ansible_facts['os_family'] == 'RedHat'
-
 - name: Gather the package facts
   ansible.builtin.package_facts:
     manager: auto
-
-- name: Install packages
-  ansible.builtin.include_tasks: install-package.yml
-  loop: "{{ default_packages }}"
-  when: default_packages is defined
-
-- name: Remove packages
-  ansible.builtin.include_tasks: remove-package.yml
-  loop: "{{ remove_packages }}"
-  when: remove_packages is defined
 
 - name: Setup swap
   ansible.builtin.import_tasks:

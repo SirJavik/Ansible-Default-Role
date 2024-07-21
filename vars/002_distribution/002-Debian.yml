@@ -11,7 +11,6 @@
 
 default_packages:
   - rsync
-  - firewalld
   - locate
   - htop
   - git
@@ -20,8 +19,6 @@ default_packages:
   - aptitude
   - zip
   - unzip
-  - php-cli
-  - php-pear
   - gnupg2
   - apt-transport-https
   - software-properties-common
@@ -39,7 +36,6 @@ default_packages:
   - nmap
   - net-tools
   - ethtool
-  - tshark
   - tcpflow
   - parted
   - hdparm
@@ -52,7 +48,11 @@ default_packages:
   - sysstat
   - iotop
   - dnstracer
-  - w3m
-  - w3m-img
   - mosh
   - apt-file
+
+remove_packages:
+  - w3m
+  - w3m-img
+  - tshark
+  - popularity-contest

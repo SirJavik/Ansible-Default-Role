@@ -8,3 +8,10 @@
 #       \____/ \__,_| \_/ |_|_|\_\      #
 #                                       #
 #########################################
+
+- name: "Remove package : {{ item }}"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    autoremove: true
+    purge: true
+    state: "absent"

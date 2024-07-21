@@ -21,7 +21,7 @@
 - name: Import setup Hetzner private network
   ansible.builtin.import_tasks:
     file: setup-hetzner-private-network.yml
-  when: 
+  when:
     - dc_provider | lower == 'hetzner'
 
 - name: Import setup hosts file
@@ -40,21 +40,21 @@
 - name: Import update system packages for Debian systems
   ansible.builtin.import_tasks:
     file: update-system-packages-debian.yml
-  when: 
+  when:
     - update_system_packages | default(false)
     - ansible_facts['os_family'] == 'Debian'
 
 - name: Enable unattended upgrades for Debian systems
   ansible.builtin.import_tasks:
     file: enable-unattended-upgrades.yml
-  when: 
+  when:
     - enable_unattended_upgrades | default(false)
     - ansible_facts['os_family'] == 'Debian'
 
 - name: Import update system packages for RedHat systems (CentOS, Fedora)
   ansible.builtin.import_tasks:
     file: update-system-packages-redhat.yml
-  when: 
+  when:
     - update_system_packages | default(false)
     - ansible_facts['os_family'] == 'RedHat'
 
@@ -62,11 +62,30 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Install default packages
+- name: Install packages
   ansible.builtin.include_tasks: install-package.yml
   loop: "{{ default_packages }}"
   when: default_packages is defined
-  
+
+- name: Remove packages
+  ansible.builtin.include_tasks: remove-package.yml
+  loop: "{{ remove_packages }}"
+  when: remove_packages is defined
+
+- name: Setup swap
+  ansible.builtin.import_tasks:
+    file: setup-swap.yml
+  when:
+    - swap_enabled | default(false)
+    - dc_provider | lower == 'hetzner'
+
+- name: Remove swap
+  ansible.builtin.import_tasks:
+    file: remove-swap.yml
+  when:
+    - not swap_enabled | default(false)
+    - dc_provider | lower == 'hetzner'
+
 - name: Set fact 'basic_setup_done' to true
   ansible.builtin.set_fact:
     basic_setup_done: true

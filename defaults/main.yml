@@ -12,8 +12,10 @@
 timezone: Europe/Berlin
 
 hostgroups:
+  - volunteersystem
   - webstorageserver
   - mailserver
+  - mailserverng
   - icinga
   - nas
 

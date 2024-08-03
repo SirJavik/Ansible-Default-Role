@@ -37,6 +37,10 @@
   ansible.builtin.package_facts:
     manager: auto
 
+- name: Copy nanorc
+  ansible.builtin.import_tasks:
+    file: setup-nanorc-file.yml
+
 - name: Setup swap
   ansible.builtin.import_tasks:
     file: setup-swap.yml

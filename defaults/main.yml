@@ -17,7 +17,7 @@ hostgroups:
   - mailserver
   - mailserverng
   - icinga
-  - nas
+#  - nas
 
 config_system_locale: 'en_US.UTF-8'
 config_system_language: 'en_US.UTF-8'

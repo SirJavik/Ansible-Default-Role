@@ -15,8 +15,8 @@ hostgroups:
   - volunteersystem
   - webstorageserver
   - mailserver
-  - mailserverng
-  - icinga
+#  - mailserverng
+#  - icinga
 #  - nas
 
 config_system_locale: 'en_US.UTF-8'

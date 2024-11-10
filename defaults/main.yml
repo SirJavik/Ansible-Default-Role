@@ -16,7 +16,7 @@ hostgroups:
   - webstorageserver
   - mailserver
 #  - mailserverng
-#  - icinga
+  - icinga
 #  - nas
 
 config_system_locale: 'en_US.UTF-8'

@@ -11,14 +11,7 @@
 
 timezone: Europe/Berlin
 
-hostgroups:
-#  - volunteersystem
-  - webstorageserver
-  - mailserver
-#  - mailserverng
-  - icinga
-  - nas
-  - pds
+hostgroups: []
 
 config_system_locale: 'en_US.UTF-8'
 config_system_language: 'en_US.UTF-8'
